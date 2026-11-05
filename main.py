@@ -70,10 +70,33 @@ try:
 except AttributeError as e:
     print("Cambiar el ID:", e)
  
-# 6. Métodos que se implementan en los siguientes hitos
+# 6. Acceso a una barra por su ID (tabla hash, O(1))
+print("\n--- Hash ---")
+print("Barra B2:", sistema.obtener_barra("B2"))
+try:
+    sistema.obtener_barra("B99")
+except KeyError as e:
+    print("Barra inexistente:", e)
+
+# 7. Despacho económico (Hito 2)
+print("\n--- Despacho económico ---")
+sistema.agregar_generador(Generador("G2", "Central Barata", 100, 20, b2))
+sistema.agregar_generador(Generador("G3", "Central Cara", 80, 60, b1))
+print("Demanda total:", sistema.demanda_total(), "MW")
+for id_gen, potencia in sistema.despacho_economico().items():
+    gen = sistema.generadores[id_gen]
+    print(f"{id_gen}: {potencia} MW (costo {gen.costo_operativo} USD/MWh)")
+
+try:
+    sistema.agregar_carga(Carga("C3", "Demanda Gigante", 1000, b1))
+    sistema.despacho_economico()
+except ValueError as e:
+    print("Demanda mayor que la capacidad:", e)
+
+# 8. Métodos que se implementan en el Hito 3
 print("\n--- Pendientes ---")
 try:
-    sistema.despacho_economico()
+    sistema.construir_ybus()
 except NotImplementedError as e:
-    print("despacho_economico:", e)
+    print("construir_ybus:", e)
  
